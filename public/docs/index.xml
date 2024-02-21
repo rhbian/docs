@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docs on skasis</title>
+    <link>https://example.com/docs/</link>
+    <description>Recent content in Docs on skasis</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 22 Jan 2024 13:28:14 +0800</lastBuildDate>
+    <atom:link href="https://example.com/docs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Second Doc</title>
+      <link>https://example.com/docs/second_doc/</link>
+      <pubDate>Mon, 22 Jan 2024 13:28:14 +0800</pubDate>
+      <guid>https://example.com/docs/second_doc/</guid>
+      <description>ch1 # this is the second paper.</description>
+    </item>
+  </channel>
+</rss>

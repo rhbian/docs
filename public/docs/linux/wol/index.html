@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" 简介 # 网络唤醒，Wake-on-LAN，简写WOL。查阅一些资料，各种电脑的网络唤醒功能各异。我的笔记本没有此功能，有的电脑只支持睡眠状态的网络唤醒，有的则能支持完全关机的网络唤醒。很幸运这个迷你主机支持完全关机下的网络唤醒。下面是一些配置。
+使用 # BIOS
+在bios中找到有wol类似字样的设置并enable。 软件查看 查看现有设置。安装ethtool软件后， ethtool eth0 | grep -i wake g代表enable，d代表disable。
+永久修改 # /etc/conf.d/net ethtool_change_eth0=&#34;wol g&#34; eth0改为相应的网络接口。
+远程启动 查看本地网络接口和mac地址ip addr 另一台电脑运行 wakeonlan &lt;mac_address&gt; ">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="计算机的网络唤醒功能(WOL)" />
+<meta property="og:description" content=" 简介 # 网络唤醒，Wake-on-LAN，简写WOL。查阅一些资料，各种电脑的网络唤醒功能各异。我的笔记本没有此功能，有的电脑只支持睡眠状态的网络唤醒，有的则能支持完全关机的网络唤醒。很幸运这个迷你主机支持完全关机下的网络唤醒。下面是一些配置。
+使用 # BIOS
+在bios中找到有wol类似字样的设置并enable。 软件查看 查看现有设置。安装ethtool软件后， ethtool eth0 | grep -i wake g代表enable，d代表disable。
+永久修改 # /etc/conf.d/net ethtool_change_eth0=&#34;wol g&#34; eth0改为相应的网络接口。
+远程启动 查看本地网络接口和mac地址ip addr 另一台电脑运行 wakeonlan &lt;mac_address&gt; " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/docs/linux/wol/" /><meta property="article:section" content="docs" />
+
+
+
+<title>计算机的网络唤醒功能(WOL) | skasis</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="stylesheet" href="/book.min.33a48f5432973b8ff9a82679d9e45d67f2c15d4399bd2829269455cfe390b5e8.css" integrity="sha256-M6SPVDKXO4/5qCZ52eRdZ/LBXUOZvSgpJpRVz&#43;OQteg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.e858fd53b7f115d381359cc023ecfc115daf8362b738c62f75cc03d5b7da733e.js" integrity="sha256-6Fj9U7fxFdOBNZzAI&#43;z8EV2vg2K3OMYvdcwD1bfacz4=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>skasis</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <ul>
+<li>
+  <a href="/docs/">Data Analysis</a>
+<ul>
+<li>
+  <a href="">Page One</a></li>
+<li>
+  <a href="/docs/second_doc/">Page Two</a></li>
+</ul>
+</li>
+<li>
+  <a href="/docs/financial/">金融概念</a></li>
+<li>
+  <a href="/docs/linux/">Linux</a>
+<ul>
+<li>
+  <a href="">acme证书</a></li>
+<li>
+  <a href="/docs/linux/wol/"class=active>网络唤醒WOL</a></li>
+</ul>
+</li>
+<li>
+  <a href="/posts/">Blog</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>计算机的网络唤醒功能(WOL)</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#使用">使用</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="简介">
+  简介
+  <a class="anchor" href="#%e7%ae%80%e4%bb%8b">#</a>
+</h1>
+<p>网络唤醒，<code>Wake-on-LAN</code>，简写<code>WOL</code>。查阅一些资料，各种电脑的网络唤醒功能各异。我的笔记本没有此功能，有的电脑只支持睡眠状态的网络唤醒，有的则能支持完全关机的网络唤醒。很幸运这个迷你主机支持完全关机下的网络唤醒。下面是一些配置。</p>
+<h1 id="使用">
+  使用
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8">#</a>
+</h1>
+<ol>
+<li>BIOS<br>
+在bios中找到有<code>wol</code>类似字样的设置并enable。</li>
+<li>软件查看
+查看现有设置。安装<code>ethtool</code>软件后，</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>ethtool eth0 | grep -i wake
+</span></span></code></pre></div><p><code>g</code>代表enable，<code>d</code>代表disable。</p>
+<ol start="3">
+<li>永久修改</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># /etc/conf.d/net</span>
+</span></span><span style="display:flex;"><span>ethtool_change_eth0<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;wol g&#34;</span>
+</span></span></code></pre></div><p><code>eth0</code>改为相应的网络接口。</p>
+<ol start="4">
+<li>远程启动
+<ol>
+<li>查看本地网络接口和mac地址<code>ip addr</code></li>
+<li>另一台电脑运行 <code>wakeonlan &lt;mac_address&gt;</code></li>
+</ol>
+</li>
+</ol>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#使用">使用</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

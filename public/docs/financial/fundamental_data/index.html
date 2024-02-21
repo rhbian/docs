@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="基础知识 # 不同类型的订单 # 市价订单(market order):市价订单旨在在抵达交易场所时立即执行，以那一刻的市价为准。 限价订单(limit order):限价订单只有在市场价格高于卖出限价订单的限价或低于买入限价订单的限价时才执行。 止损订单(stop order):止损订单则只有在市场价格升至买入止损订单的指定价格或下降至卖出止损订单的指定价格时才激活。 买入止损订单(buy stop order):用于限制空头交易的损失。 数据清洗与整理 # 略。详见jupyter文档
+订单的可视化 # tick bars # tick级别的数据体量较大，刻画数据可以使用最直接的直线图。刻画在不同的时间戳下的成交价格。由于在开盘和收盘时交易活动最活跃，波动也最大，所以经常去掉cross数据。
+书中核心代码如下
+stock, date = &#39;AAPL&#39;, &#39;20191030&#39; title = &#39;{} | {}&#39;.format(stock, pd.to_datetime(date).date() with pd.HDFStore(itch_store) as store: sys_events = store[&#39;S&#39;].set_index(&#39;event_code&#39;) # system events sys_events.timestamp = sys_events.timestamp.add(pd.to_datetime(date)).dt.time market_open = sys_events.loc[&#39;Q&#39;, &#39;timestamp&#39;] market_close = sys_events.loc[&#39;M&#39;, &#39;timestamp&#39;] with pd.HDFStore(stock_store) as store: trades = store[&#39;{}/trades&#39;.format(stock)].reset_index() trades = trades[trades.cross == 0] # excluding data from open/close crossings trades.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Fundamental Data" />
+<meta property="og:description" content="基础知识 # 不同类型的订单 # 市价订单(market order):市价订单旨在在抵达交易场所时立即执行，以那一刻的市价为准。 限价订单(limit order):限价订单只有在市场价格高于卖出限价订单的限价或低于买入限价订单的限价时才执行。 止损订单(stop order):止损订单则只有在市场价格升至买入止损订单的指定价格或下降至卖出止损订单的指定价格时才激活。 买入止损订单(buy stop order):用于限制空头交易的损失。 数据清洗与整理 # 略。详见jupyter文档
+订单的可视化 # tick bars # tick级别的数据体量较大，刻画数据可以使用最直接的直线图。刻画在不同的时间戳下的成交价格。由于在开盘和收盘时交易活动最活跃，波动也最大，所以经常去掉cross数据。
+书中核心代码如下
+stock, date = &#39;AAPL&#39;, &#39;20191030&#39; title = &#39;{} | {}&#39;.format(stock, pd.to_datetime(date).date() with pd.HDFStore(itch_store) as store: sys_events = store[&#39;S&#39;].set_index(&#39;event_code&#39;) # system events sys_events.timestamp = sys_events.timestamp.add(pd.to_datetime(date)).dt.time market_open = sys_events.loc[&#39;Q&#39;, &#39;timestamp&#39;] market_close = sys_events.loc[&#39;M&#39;, &#39;timestamp&#39;] with pd.HDFStore(stock_store) as store: trades = store[&#39;{}/trades&#39;.format(stock)].reset_index() trades = trades[trades.cross == 0] # excluding data from open/close crossings trades." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/docs/financial/fundamental_data/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Fundamental Data | skasis</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="stylesheet" href="/book.min.33a48f5432973b8ff9a82679d9e45d67f2c15d4399bd2829269455cfe390b5e8.css" integrity="sha256-M6SPVDKXO4/5qCZ52eRdZ/LBXUOZvSgpJpRVz&#43;OQteg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.e858fd53b7f115d381359cc023ecfc115daf8362b738c62f75cc03d5b7da733e.js" integrity="sha256-6Fj9U7fxFdOBNZzAI&#43;z8EV2vg2K3OMYvdcwD1bfacz4=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>skasis</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <ul>
+<li>
+  <a href="/docs/">Data Analysis</a>
+<ul>
+<li>
+  <a href="">Page One</a></li>
+<li>
+  <a href="/docs/second_doc/">Page Two</a></li>
+</ul>
+</li>
+<li>
+  <a href="/docs/financial/">金融概念</a></li>
+<li>
+  <a href="/docs/linux/">Linux</a>
+<ul>
+<li>
+  <a href="">acme证书</a></li>
+<li>
+  <a href="/docs/linux/wol/">网络唤醒WOL</a></li>
+</ul>
+</li>
+<li>
+  <a href="/posts/">Blog</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Fundamental Data</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础知识">基础知识</a>
+      <ul>
+        <li><a href="#不同类型的订单">不同类型的订单</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据清洗与整理">数据清洗与整理</a>
+      <ul>
+        <li><a href="#订单的可视化">订单的可视化</a>
+          <ul>
+            <li><a href="#tick-bars">tick bars</a></li>
+            <li><a href="#time-bars">time bars</a></li>
+            <li><a href="#volumn-bars">volumn bars</a></li>
+            <li><a href="#dollar-bars">dollar bars</a></li>
+          </ul>
+        </li>
+        <li><a href="#algoseek数据">algoseek数据</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="基础知识">
+  基础知识
+  <a class="anchor" href="#%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86">#</a>
+</h1>
+<h2 id="不同类型的订单">
+  不同类型的订单
+  <a class="anchor" href="#%e4%b8%8d%e5%90%8c%e7%b1%bb%e5%9e%8b%e7%9a%84%e8%ae%a2%e5%8d%95">#</a>
+</h2>
+<ul>
+<li>市价订单(market order):市价订单旨在在抵达交易场所时立即执行，以那一刻的市价为准。</li>
+<li>限价订单(limit order):限价订单只有在市场价格高于卖出限价订单的限价或低于买入限价订单的限价时才执行。</li>
+<li>止损订单(stop order):止损订单则只有在市场价格升至买入止损订单的指定价格或下降至卖出止损订单的指定价格时才激活。</li>
+<li>买入止损订单(buy stop order):用于限制空头交易的损失。</li>
+</ul>
+<h1 id="数据清洗与整理">
+  数据清洗与整理
+  <a class="anchor" href="#%e6%95%b0%e6%8d%ae%e6%b8%85%e6%b4%97%e4%b8%8e%e6%95%b4%e7%90%86">#</a>
+</h1>
+<p>略。详见jupyter文档</p>
+<h2 id="订单的可视化">
+  订单的可视化
+  <a class="anchor" href="#%e8%ae%a2%e5%8d%95%e7%9a%84%e5%8f%af%e8%a7%86%e5%8c%96">#</a>
+</h2>
+<h3 id="tick-bars">
+  tick bars
+  <a class="anchor" href="#tick-bars">#</a>
+</h3>
+<p>tick级别的数据体量较大，刻画数据可以使用最直接的直线图。刻画在不同的时间戳下的成交价格。由于在开盘和收盘时交易活动最活跃，波动也最大，所以经常去掉cross数据。</p>
+<p>书中核心代码如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span>stock, date <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;AAPL&#39;</span>, <span style="color:#e6db74">&#39;20191030&#39;</span>
+</span></span><span style="display:flex;"><span>title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> | </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(stock, pd<span style="color:#f92672">.</span>to_datetime(date)<span style="color:#f92672">.</span>date()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> pd<span style="color:#f92672">.</span>HDFStore(itch_store) <span style="color:#66d9ef">as</span> store:
+</span></span><span style="display:flex;"><span>sys_events <span style="color:#f92672">=</span> store[<span style="color:#e6db74">&#39;S&#39;</span>]<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#39;event_code&#39;</span>) <span style="color:#75715e"># system events</span>
+</span></span><span style="display:flex;"><span>sys_events<span style="color:#f92672">.</span>timestamp <span style="color:#f92672">=</span> sys_events<span style="color:#f92672">.</span>timestamp<span style="color:#f92672">.</span>add(pd<span style="color:#f92672">.</span>to_datetime(date))<span style="color:#f92672">.</span>dt<span style="color:#f92672">.</span>time
+</span></span><span style="display:flex;"><span>market_open <span style="color:#f92672">=</span> sys_events<span style="color:#f92672">.</span>loc[<span style="color:#e6db74">&#39;Q&#39;</span>, <span style="color:#e6db74">&#39;timestamp&#39;</span>]
+</span></span><span style="display:flex;"><span>market_close <span style="color:#f92672">=</span> sys_events<span style="color:#f92672">.</span>loc[<span style="color:#e6db74">&#39;M&#39;</span>, <span style="color:#e6db74">&#39;timestamp&#39;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> pd<span style="color:#f92672">.</span>HDFStore(stock_store) <span style="color:#66d9ef">as</span> store:
+</span></span><span style="display:flex;"><span>trades <span style="color:#f92672">=</span> store[<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">/trades&#39;</span><span style="color:#f92672">.</span>format(stock)]<span style="color:#f92672">.</span>reset_index()
+</span></span><span style="display:flex;"><span>trades <span style="color:#f92672">=</span> trades[trades<span style="color:#f92672">.</span>cross <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>] <span style="color:#75715e"># excluding data from open/close crossings</span>
+</span></span><span style="display:flex;"><span>trades<span style="color:#f92672">.</span>price <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>price<span style="color:#f92672">.</span>mul(<span style="color:#ae81ff">1e-4</span>) <span style="color:#75715e"># format price</span>
+</span></span><span style="display:flex;"><span>trades <span style="color:#f92672">=</span> trades[trades<span style="color:#f92672">.</span>cross <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># exclude crossing trades</span>
+</span></span><span style="display:flex;"><span>trades <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>between_time(market_open, market_close) <span style="color:#75715e"># market hours only</span>
+</span></span><span style="display:flex;"><span>tick_bars <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#39;timestamp&#39;</span>)
+</span></span><span style="display:flex;"><span>tick_bars<span style="color:#f92672">.</span>index <span style="color:#f92672">=</span> tick_bars<span style="color:#f92672">.</span>index<span style="color:#f92672">.</span>time
+</span></span><span style="display:flex;"><span>tick_bars<span style="color:#f92672">.</span>price<span style="color:#f92672">.</span>plot(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">5</span>), title<span style="color:#f92672">=</span>title), lw<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span></code></pre></div><p>值得注意的是，这个作图并不是很精致，尤其是刻度线部分。</p>
+<h3 id="time-bars">
+  time bars
+  <a class="anchor" href="#time-bars">#</a>
+</h3>
+<p>改进1：
+因为逐笔数据以纳秒为索引，噪音较大。例如买卖报价(bid-ask bounce)会导致价格在买入和卖出市场的订单交替发起时，在买入价和卖出价之间震荡。为<strong>提高噪音信号比</strong>，并<strong>改善统计属性</strong>，通过聚合交易活动来重采样规范化逐笔数据。</p>
+<p>收集聚合周期的olhc以及成交量加权平均价格(VWAP)、交易的股票数量以及数据相关联的时间戳。</p>
+<p>核心代码如下：
+聚合周期为1min，加权平均计算为$vwap = \dfrac{price \cdot shares}{\sum{shares}}$</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_bar_stats</span>(agg_trades: pd<span style="color:#f92672">.</span>core<span style="color:#f92672">.</span>groupby):
+</span></span><span style="display:flex;"><span>    vwap <span style="color:#f92672">=</span> agg_trades<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> x: np<span style="color:#f92672">.</span>average(x<span style="color:#f92672">.</span>price, weights<span style="color:#f92672">=</span>x<span style="color:#f92672">.</span>shares))<span style="color:#f92672">.</span>to_frame(<span style="color:#e6db74">&#39;vwap&#39;</span>)
+</span></span><span style="display:flex;"><span>    ohlc <span style="color:#f92672">=</span> agg_trades<span style="color:#f92672">.</span>price<span style="color:#f92672">.</span>ohlc() <span style="color:#75715e"># 创建 open high, low, close</span>
+</span></span><span style="display:flex;"><span>    vol <span style="color:#f92672">=</span> agg_trades<span style="color:#f92672">.</span>shares<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>to_frame(<span style="color:#e6db74">&#39;vol&#39;</span>) <span style="color:#75715e"># 汇总份额</span>
+</span></span><span style="display:flex;"><span>    txn <span style="color:#f92672">=</span> agg_trades<span style="color:#f92672">.</span>shares<span style="color:#f92672">.</span>size()<span style="color:#f92672">.</span>to_frame(<span style="color:#e6db74">&#39;txn&#39;</span>) <span style="color:#75715e"># 每个组里有多少个不同的shares</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pd<span style="color:#f92672">.</span>concat([ohlc, vwap, vol, txn], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>resampled <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>groupby(pd<span style="color:#f92672">.</span>Grouper(freq<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;1Min&#39;</span>)) <span style="color:#75715e"># 以1min为周期进行聚合。</span>
+</span></span><span style="display:flex;"><span>time_bars <span style="color:#f92672">=</span> get_bar_stats(resampled)
+</span></span></code></pre></div><p>K线图 bokeh库</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#f92672">from</span> bokeh.io <span style="color:#f92672">import</span> output_notebook, show
+</span></span><span style="display:flex;"><span>output_notebook()
+</span></span><span style="display:flex;"><span>resampled <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>groupby(pd<span style="color:#f92672">.</span>Grouper(freq<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;5Min&#39;</span>)) <span style="color:#75715e"># 5 Min bars for better print</span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> get_bar_stats(resampled)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>increase <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>close <span style="color:#f92672">&gt;</span> df<span style="color:#f92672">.</span>open <span style="color:#75715e"># 上升</span>
+</span></span><span style="display:flex;"><span>decrease <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>open <span style="color:#f92672">&gt;</span> df<span style="color:#f92672">.</span>close <span style="color:#75715e"># 下降</span>
+</span></span><span style="display:flex;"><span>w <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.5</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span> <span style="color:#75715e"># 2.5 min in ms </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>WIDGETS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;pan, wheel_zoom, box_zoom, reset, save&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> figure(x_axis_type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;datetime&#39;</span>, tools<span style="color:#f92672">=</span>WIDGETS, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AAPL Candlestick&#34;</span>) <span style="color:#75715e">#  plot_width=1500,</span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>xaxis<span style="color:#f92672">.</span>major_label_orientation <span style="color:#f92672">=</span> pi<span style="color:#f92672">/</span><span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>grid<span style="color:#f92672">.</span>grid_line_alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>segment(df<span style="color:#f92672">.</span>index, df<span style="color:#f92672">.</span>high, df<span style="color:#f92672">.</span>index, df<span style="color:#f92672">.</span>low, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;black&#34;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>vbar(df<span style="color:#f92672">.</span>index[increase], w, df<span style="color:#f92672">.</span>open[increase], df<span style="color:#f92672">.</span>close[increase], fill_color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#FF0000&#34;</span>, line_color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;black&#34;</span>)
+</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>vbar(df<span style="color:#f92672">.</span>index[decrease], w, df<span style="color:#f92672">.</span>open[decrease], df<span style="color:#f92672">.</span>close[decrease], fill_color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#008000&#34;</span>, line_color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;black&#34;</span>)
+</span></span><span style="display:flex;"><span>show(p)
+</span></span></code></pre></div><h3 id="volumn-bars">
+  volumn bars
+  <a class="anchor" href="#volumn-bars">#</a>
+</h3>
+<p>time bars可以平滑原始逐笔数据中的一些噪音，但可能无法解释订单的碎片化。以执行为中心的算法交易可能旨在在给定时期内匹配成交量加权平均价格（VWAP），并将单一订单分成多个交易，并根据历史模式下单。即使市场中没有新信息到来，时间条也会对同一订单进行不同的处理。volumn bars根据交易量来聚合交易数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span>trades_per_min <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>shares<span style="color:#f92672">.</span>sum()<span style="color:#f92672">/</span>(<span style="color:#ae81ff">60</span><span style="color:#f92672">*</span><span style="color:#ae81ff">7.5</span>) <span style="color:#75715e"># min per trading day 每天交易的分钟数</span>
+</span></span><span style="display:flex;"><span>trades[<span style="color:#e6db74">&#39;cumul_vol&#39;</span>] <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>shares<span style="color:#f92672">.</span>cumsum()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>reset_index()
+</span></span><span style="display:flex;"><span>by_vol <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>groupby(df<span style="color:#f92672">.</span>cumul_vol<span style="color:#f92672">.</span>div(trades_per_min)<span style="color:#f92672">.</span>round()<span style="color:#f92672">.</span>astype(int))
+</span></span><span style="display:flex;"><span>vol_bars <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([by_vol<span style="color:#f92672">.</span>timestamp<span style="color:#f92672">.</span>last()<span style="color:#f92672">.</span>to_frame(<span style="color:#e6db74">&#39;timestamp&#39;</span>), get_bar_stats(by_vol)], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>vol_bars<span style="color:#f92672">.</span>head()
+</span></span></code></pre></div><p>$每分钟的平均交易量 = (\sum{shares}) / (60*7.5)$</p>
+<p>累积的交易量 = shares.cumsum()</p>
+<p>累积交易量/每分钟的交易量</p>
+<p>这个处理方式比较难理解。只是在交易量上的不同，但是时间戳都混乱了。</p>
+<h3 id="dollar-bars">
+  dollar bars
+  <a class="anchor" href="#dollar-bars">#</a>
+</h3>
+<p>dollar bars也进行了和volumn bars类似的处理。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span>value_per_min <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>shares<span style="color:#f92672">.</span>mul(trades<span style="color:#f92672">.</span>price)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">/</span>(<span style="color:#ae81ff">60</span><span style="color:#f92672">*</span><span style="color:#ae81ff">7.5</span>) <span style="color:#75715e"># min per trading day</span>
+</span></span><span style="display:flex;"><span>trades[<span style="color:#e6db74">&#39;cumul_val&#39;</span>] <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>shares<span style="color:#f92672">.</span>mul(trades<span style="color:#f92672">.</span>price)<span style="color:#f92672">.</span>cumsum()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> trades<span style="color:#f92672">.</span>reset_index()
+</span></span><span style="display:flex;"><span>by_value <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>groupby(df<span style="color:#f92672">.</span>cumul_val<span style="color:#f92672">.</span>div(value_per_min)<span style="color:#f92672">.</span>round()<span style="color:#f92672">.</span>astype(int))
+</span></span><span style="display:flex;"><span>dollar_bars <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([by_value<span style="color:#f92672">.</span>timestamp<span style="color:#f92672">.</span>last()<span style="color:#f92672">.</span>to_frame(<span style="color:#e6db74">&#39;timestamp&#39;</span>), get_bar_stats(by_value)], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>dollar_bars<span style="color:#f92672">.</span>head()
+</span></span></code></pre></div><h2 id="algoseek数据">
+  algoseek数据
+  <a class="anchor" href="#algoseek%e6%95%b0%e6%8d%ae">#</a>
+</h2>
+<p>algoseek提供了分钟数据。网站上的数据需要订阅，书中提供了
+  <a href="https://algoseek-public.s3.amazonaws.com/nasdaq100-1min.zip">示例数据</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础知识">基础知识</a>
+      <ul>
+        <li><a href="#不同类型的订单">不同类型的订单</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据清洗与整理">数据清洗与整理</a>
+      <ul>
+        <li><a href="#订单的可视化">订单的可视化</a>
+          <ul>
+            <li><a href="#tick-bars">tick bars</a></li>
+            <li><a href="#time-bars">time bars</a></li>
+            <li><a href="#volumn-bars">volumn bars</a></li>
+            <li><a href="#dollar-bars">dollar bars</a></li>
+          </ul>
+        </li>
+        <li><a href="#algoseek数据">algoseek数据</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
