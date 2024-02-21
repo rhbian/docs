@@ -3,15 +3,19 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content=" 更新证书 # 使用root权限。
+# acme.sh --renew -d dev.skasis.com --key-file /etc/trojan/private.key --fullchain-file /etc/trojan/fullchain.cer # rc-service nginx reload ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Tags" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://example.com/tags/" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="acme" />
+<meta property="og:description" content=" 更新证书 # 使用root权限。
+# acme.sh --renew -d dev.skasis.com --key-file /etc/trojan/private.key --fullchain-file /etc/trojan/fullchain.cer # rc-service nginx reload " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/docs/linux/acme/" /><meta property="article:section" content="docs" />
 
-<title>Tags | skasis</title>
+
+
+<title>acme | skasis</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" >
 <link rel="stylesheet" href="/book.min.33a48f5432973b8ff9a82679d9e45d67f2c15d4399bd2829269455cfe390b5e8.css" integrity="sha256-M6SPVDKXO4/5qCZ52eRdZ/LBXUOZvSgpJpRVz&#43;OQteg=" crossorigin="anonymous">
@@ -19,7 +23,6 @@
   <script defer src="/en.search.min.1241b3d390d8ca2d55987f1a649b90e53942c5b8f4ed31d74e92a54b0c91e561.js" integrity="sha256-EkGz05DYyi1VmH8aZJuQ5TlCxbj07THXTpKlSwyR5WE=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://example.com/tags/index.xml" title="skasis" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -73,7 +76,7 @@ https://github.com/alex-shpak/hugo-book
   <a href="/docs/linux/">Linux</a>
 <ul>
 <li>
-  <a href="/docs/linux/acme/">acme证书</a></li>
+  <a href="/docs/linux/acme/"class=active>acme证书</a></li>
 <li>
   <a href="/docs/linux/wol/">网络唤醒WOL</a></li>
 </ul>
@@ -111,7 +114,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Tags</strong>
+  <strong>acme</strong>
 
   <label for="toc-control">
     
@@ -124,29 +127,13 @@ https://github.com/alex-shpak/hugo-book
   
   <aside class="hidden clearfix">
     
-  <nav>
+  
+<nav id="TableOfContents">
   <ul>
-  
-    
-    <li class="book-section-flat">
-      <strong>Categories</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
-    
-    <li class="book-section-flat">
-      <strong>Tags</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
+    <li><a href="#更新证书">更新证书</a></li>
   </ul>
 </nav>
+
 
 
   </aside>
@@ -156,9 +143,14 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  
-
-  
+  <article class="markdown book-article"><h1 id="更新证书">
+  更新证书
+  <a class="anchor" href="#%e6%9b%b4%e6%96%b0%e8%af%81%e4%b9%a6">#</a>
+</h1>
+<p>使用root权限。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># acme.sh --renew  -d dev.skasis.com --key-file   /etc/trojan/private.key --fullchain-file /etc/trojan/fullchain.cer</span>
+</span></span></code></pre></div><pre tabindex="0"><code># rc-service nginx reload
+</code></pre></article>
  
       
 
@@ -183,6 +175,10 @@ https://github.com/alex-shpak/hugo-book
 
       
   
+  <div class="book-comments">
+
+</div>
+  
  
 
       <label for="menu-control" class="hidden book-menu-overlay"></label>
@@ -192,29 +188,13 @@ https://github.com/alex-shpak/hugo-book
     <aside class="book-toc">
       <div class="book-toc-content">
         
-  <nav>
+  
+<nav id="TableOfContents">
   <ul>
-  
-    
-    <li class="book-section-flat">
-      <strong>Categories</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
-    
-    <li class="book-section-flat">
-      <strong>Tags</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
+    <li><a href="#更新证书">更新证书</a></li>
   </ul>
 </nav>
+
 
  
       </div>
